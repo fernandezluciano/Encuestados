@@ -5,8 +5,9 @@ var Modelo = function() {
   this.preguntas = [];
   this.ultimoId = 0;
 
-  //inicializacion de eventos
+  //Inicialización de eventos//
   this.preguntaAgregada = new Evento(this);
+  this.preguntaBorrada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -21,7 +22,7 @@ Modelo.prototype = {
       return ultimoId;
   },
 
-  //se agrega una pregunta dado un nombre y sus respuestas
+  //se agrega una pregunta dado un nombre y sus respuestas//
   agregarPregunta: function(nombre, respuestas) {
     var id = this.obtenerUltimoId();
     id++;
@@ -31,7 +32,14 @@ Modelo.prototype = {
     this.preguntaAgregada.notificar();
   },
 
-  //se guardan las preguntas
+  borrarPregunta: function(id){
+    this.preguntas = this.preguntas.filter(function(pregunta){
+      return pregunta.id !== id;
+    }); 
+    this.preguntaBorrada.notificar();
+  },
+
+  //Se guardan las preguntas//
   guardar: function(){
   },
 };

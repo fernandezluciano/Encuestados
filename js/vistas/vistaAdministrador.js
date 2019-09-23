@@ -7,8 +7,12 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.elementos = elementos;
   var contexto = this;
 
-  // suscripción de observadores
+  // Suscripción de observadores //
   this.modelo.preguntaAgregada.suscribir(function() {
+    contexto.reconstruirLista();
+  });
+
+  this.modelo.preguntaBorrada.suscribir(function(){
     contexto.reconstruirLista();
   });
 };
@@ -56,13 +60,12 @@ VistaAdministrador.prototype = {
     var e = this.elementos;
     var contexto = this;
 
-    //asociacion de eventos a boton 
+    // Asociación de eventos a botones //
     e.botonAgregarPregunta.click(function() {
       var value = e.pregunta.val();
       var respuestas = [];
 
       $('[name="option[]"]').each(function() {
-        //completar
         var respuesta = $(this).val()
         if(respuesta.length > 0){
           respuestas.push({
@@ -74,7 +77,11 @@ VistaAdministrador.prototype = {
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
     });
-    //asociar el resto de los botones a eventos
+
+    e.botonBorrarPregunta.click(function(){
+      var id = parseInt($('.list-group-item.active').attr('id'));
+      contexto.controlador.borrarPregunta(id);
+    })
   },
 
   limpiarFormulario: function(){
