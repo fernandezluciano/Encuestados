@@ -15,13 +15,20 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntaBorrada.suscribir(function(){
     contexto.reconstruirLista();
   });
+
+  this.modelo.todoBorrado.suscribir(function(){
+    contexto.reconstruirLista();
+  });
+
+  this.modelo.preguntaEditada.suscribir(function(){
+    contexto.reconstruirLista();
+  });
 };
 
 
 VistaAdministrador.prototype = {
-  //lista
+  // Lista //
   inicializar: function() {
-    //llamar a los metodos para reconstruir la lista, configurar botones y validar formularios
     this.reconstruirLista();
     this.configuracionDeBotones();
     validacionDeFormulario();
@@ -29,8 +36,6 @@ VistaAdministrador.prototype = {
 
   construirElementoPregunta: function(pregunta){
     var contexto = this;
-    //completar
-    //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     var nuevoItem = $('<li/>', {
       id: pregunta.id,
       class: 'list-group-item',
@@ -81,7 +86,17 @@ VistaAdministrador.prototype = {
     e.botonBorrarPregunta.click(function(){
       var id = parseInt($('.list-group-item.active').attr('id'));
       contexto.controlador.borrarPregunta(id);
-    })
+    });
+
+    e.borrarTodo.click(function(){
+      contexto.controlador.borrarTodo();
+    });
+
+    e.botonEditarPregunta.click(function(){
+      var id = parseInt($('.list-group-item.active').attr('id'));
+      var nuevoTextoPregunta = prompt('Editá el nombre de la pregunta');
+      contexto.controlador.editarPregunta(id, nuevoTextoPregunta);
+    });
   },
 
   limpiarFormulario: function(){
