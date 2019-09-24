@@ -22,5 +22,9 @@ Controlador.prototype = {
     if(nuevoTextoPregunta){
       this.modelo.editarPregunta(id, nuevoTextoPregunta);
     }
+  },
+
+  agregarVotos: function(nombrePregunta, respuestaSeleccionada){
+    this.modelo.agregarVotos(nombrePregunta, respuestaSeleccionada);
   }
 };

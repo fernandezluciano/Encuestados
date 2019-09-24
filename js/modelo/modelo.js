@@ -10,6 +10,7 @@ var Modelo = function() {
   this.preguntaBorrada = new Evento(this);
   this.todoBorrado = new Evento(this);
   this.preguntaEditada = new Evento(this);
+  this.preguntaVotada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -59,6 +60,11 @@ Modelo.prototype = {
     this.guardar();
     this.preguntaEditada.notificar();
    }
+  },
+
+  agregarVotos: function(nombrePregunta, respuestaSeleccionada){
+    
+    this.preguntaVotada.notificar();
   },
 
   // Se guardan las preguntas //

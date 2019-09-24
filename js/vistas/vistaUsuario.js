@@ -11,6 +11,26 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+
+  this.modelo.preguntaBorrada.suscribir(function(){
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+
+  });
+
+  this.modelo.preguntaEditada.suscribir(function(){
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+  });
+
+  this.modelo.todoBorrado.suscribir(function(){
+    contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
+  });
+
+  this.modelo.preguntaVotada.suscribir(function(){
+    contexto.reconstruirGrafico();
+  })
 };
 
 VistaUsuario.prototype = {
@@ -51,13 +71,21 @@ VistaUsuario.prototype = {
     preguntas.forEach(function(clave){
       //completar
       //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
-      var respuestas = clave.cantidadPorRespuesta;
-      contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
+    var nuevoItem = $('<div/>', {
+      text: clave.textoPregunta,
+      value: clave.textoPregunta,
+      id: clave.id
+    });
+    listaPreguntas.append(nuevoItem);
+
+      
+    var respuestas = clave.cantidadPorRespuesta;
+    contexto.mostrarRespuestas(listaPreguntas, respuestas, clave);
     })
   },
 
   //muestra respuestas
-  mostrarRespuestas:function(listaPreguntas,respuestas, clave){
+  mostrarRespuestas:function(listaPreguntas, respuestas, clave){
     respuestas.forEach (function(elemento) {
       listaPreguntas.append($('<input>', {
         type: 'radio',
@@ -78,7 +106,7 @@ VistaUsuario.prototype = {
         var id = $(this).attr('id');
         var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
         $('input[name=' + id + ']').prop('checked',false);
-        contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);
+        contexto.controlador.agregarVotos(nombrePregunta,respuestaSeleccionada);
       });
   },
 
