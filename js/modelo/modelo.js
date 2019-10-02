@@ -1,7 +1,7 @@
 /*
  * Modelo
  */
-var Modelo = function() {
+var Modelo = function(){
   this.preguntas = JSON.parse(localStorage.getItem('preguntas')) || [];
   this.ultimoId = 0;
 
@@ -14,10 +14,9 @@ var Modelo = function() {
 };
 
 Modelo.prototype = {
-  // Se obtiene el id más grande asignado a una pregunta //
-  obtenerUltimoId: function() {
+  obtenerUltimoId: function(){        // Se obtiene el id más grande asignado a una pregunta //
     var ultimoId = 0;
-    for (let i = 0; i < this.preguntas.length; i++) {
+    for (let i = 0; i < this.preguntas.length; i++){
        if(this.preguntas[i].id > ultimoId){
          ultimoId = this.preguntas[i].id
        }
@@ -25,8 +24,7 @@ Modelo.prototype = {
       return ultimoId;
   },
 
-  // Se agrega una pregunta dado un nombre y sus respuestas //
-  agregarPregunta: function(nombre, respuestas) {
+  agregarPregunta: function(nombre, respuestas) {       // Se agrega una pregunta dado un nombre y sus respuestas //
     var id = this.obtenerUltimoId();
     id++;
     var nuevaPregunta = {'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas};
@@ -63,7 +61,16 @@ Modelo.prototype = {
   },
 
   agregarVotos: function(nombrePregunta, respuestaSeleccionada){
-    
+    this.preguntas.forEach(function(pregunta){
+      if(pregunta.textoPregunta  === nombrePregunta){
+        pregunta.cantidadPorRespuesta.forEach(function(respuesta){
+          if(respuesta.textoRespuesta === respuestaSeleccionada){
+            respuesta.cantidad +=1;
+          }
+        })
+      }
+    }); 
+    this.guardar();
     this.preguntaVotada.notificar();
   },
 

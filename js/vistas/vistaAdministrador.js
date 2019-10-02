@@ -1,7 +1,7 @@
 /*
  * Vista administrador
  */
-var VistaAdministrador = function(modelo, controlador, elementos) {
+var VistaAdministrador = function(modelo, controlador, elementos){
   this.modelo = modelo;
   this.controlador = controlador;
   this.elementos = elementos;
@@ -28,7 +28,7 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
 
 VistaAdministrador.prototype = {
   // Lista //
-  inicializar: function() {
+  inicializar: function(){
     this.reconstruirLista();
     this.configuracionDeBotones();
     validacionDeFormulario();
@@ -36,7 +36,7 @@ VistaAdministrador.prototype = {
 
   construirElementoPregunta: function(pregunta){
     var contexto = this;
-    var nuevoItem = $('<li/>', {
+    var nuevoItem = $('<li/>', {        // Se crea un elemento <li> por cada pregunta generada. //
       id: pregunta.id,
       class: 'list-group-item',
       text: pregunta.textoPregunta
@@ -52,7 +52,7 @@ VistaAdministrador.prototype = {
     return nuevoItem;
   },
 
-  reconstruirLista: function() {
+  reconstruirLista: function(){
     var lista = this.elementos.lista;
     lista.html('');
     var preguntas = this.modelo.preguntas;
@@ -66,12 +66,12 @@ VistaAdministrador.prototype = {
     var contexto = this;
 
     // Asociación de eventos a botones //
-    e.botonAgregarPregunta.click(function() {
+    e.botonAgregarPregunta.click(function(){
       var value = e.pregunta.val();
       var respuestas = [];
 
-      $('[name="option[]"]').each(function() {
-        var respuesta = $(this).val()
+      $('[name="option[]"]').each(function(){
+        var respuesta = $(this).val();
         if(respuesta.length > 0){
           respuestas.push({
             textoRespuesta: respuesta,
@@ -101,5 +101,5 @@ VistaAdministrador.prototype = {
 
   limpiarFormulario: function(){
     $('.form-group.answer.has-feedback.has-success').remove();
-  },
+  }
 };
